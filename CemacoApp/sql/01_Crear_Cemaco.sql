@@ -1,0 +1,27 @@
+IF DB_ID(N'Cemaco') IS NULL CREATE DATABASE Cemaco;
+GO
+USE Cemaco;
+GO
+IF OBJECT_ID('dbo.Cliente','U') IS NULL CREATE TABLE dbo.Cliente(id_cliente int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL,apellido varchar(50) NOT NULL,nit varchar(20) NULL,direccion varchar(150) NULL,telefono varchar(20) NULL,correo varchar(100) NULL);
+IF OBJECT_ID('dbo.Categoria','U') IS NULL CREATE TABLE dbo.Categoria(id_categoria int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL UNIQUE,descripcion varchar(100) NULL);
+IF OBJECT_ID('dbo.Producto','U') IS NULL CREATE TABLE dbo.Producto(id_producto int IDENTITY(1,1) PRIMARY KEY,nombre varchar(100) NOT NULL,descripcion varchar(200) NULL,precio decimal(10,2) NOT NULL CHECK(precio>=0),id_categoria int NOT NULL REFERENCES dbo.Categoria(id_categoria));
+IF OBJECT_ID('dbo.Tipo_Venta','U') IS NULL CREATE TABLE dbo.Tipo_Venta(id_tipo_venta int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL UNIQUE,descripcion varchar(100) NULL);
+IF OBJECT_ID('dbo.Venta','U') IS NULL CREATE TABLE dbo.Venta(id_venta int IDENTITY(1,1) PRIMARY KEY,fecha date NOT NULL,id_cliente int NOT NULL REFERENCES dbo.Cliente(id_cliente),id_tipo_venta int NOT NULL REFERENCES dbo.Tipo_Venta(id_tipo_venta));
+IF OBJECT_ID('dbo.Detalle_Venta','U') IS NULL CREATE TABLE dbo.Detalle_Venta(id_detalle int IDENTITY(1,1) PRIMARY KEY,cantidad int NOT NULL CHECK(cantidad>0),precio_unitario decimal(10,2) NOT NULL CHECK(precio_unitario>=0),id_venta int NOT NULL REFERENCES dbo.Venta(id_venta),id_producto int NOT NULL REFERENCES dbo.Producto(id_producto));
+IF OBJECT_ID('dbo.Tipo_Comprobante','U') IS NULL CREATE TABLE dbo.Tipo_Comprobante(id_tipo_comprobante int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL UNIQUE,descripcion varchar(100) NULL);
+IF OBJECT_ID('dbo.Comprobante','U') IS NULL CREATE TABLE dbo.Comprobante(id_comprobante int IDENTITY(1,1) PRIMARY KEY,numero varchar(50) NOT NULL UNIQUE,fecha_emision date NOT NULL,detalle varchar(200) NULL,id_venta int NOT NULL UNIQUE REFERENCES dbo.Venta(id_venta),id_tipo_comprobante int NOT NULL REFERENCES dbo.Tipo_Comprobante(id_tipo_comprobante));
+IF OBJECT_ID('dbo.Metodo_Pago','U') IS NULL CREATE TABLE dbo.Metodo_Pago(id_metodo_pago int IDENTITY(1,1) PRIMARY KEY,descripcion varchar(100) NULL,nombre varchar(50) NOT NULL UNIQUE);
+IF OBJECT_ID('dbo.Pago','U') IS NULL CREATE TABLE dbo.Pago(id_pago int IDENTITY(1,1) PRIMARY KEY,total decimal(10,2) NOT NULL CHECK(total>=0),id_comprobante int NOT NULL REFERENCES dbo.Comprobante(id_comprobante),id_metodo_pago int NOT NULL REFERENCES dbo.Metodo_Pago(id_metodo_pago));
+IF OBJECT_ID('dbo.Estado_Pedido','U') IS NULL CREATE TABLE dbo.Estado_Pedido(id_estado_pedido int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL UNIQUE,descripcion varchar(100) NULL);
+IF OBJECT_ID('dbo.Pedido','U') IS NULL CREATE TABLE dbo.Pedido(id_pedido int IDENTITY(1,1) PRIMARY KEY,fecha_pedido date NOT NULL,fecha_estimada date NULL,direccion_envio varchar(150) NULL,observaciones varchar(200) NULL,id_venta int NOT NULL REFERENCES dbo.Venta(id_venta),id_estado_pedido int NOT NULL REFERENCES dbo.Estado_Pedido(id_estado_pedido));
+IF OBJECT_ID('dbo.Estado_Despacho','U') IS NULL CREATE TABLE dbo.Estado_Despacho(id_estado_despacho int IDENTITY(1,1) PRIMARY KEY,nombre varchar(50) NOT NULL UNIQUE,descripcion varchar(100) NULL);
+IF OBJECT_ID('dbo.Despacho','U') IS NULL CREATE TABLE dbo.Despacho(id_despacho int IDENTITY(1,1) PRIMARY KEY,fecha_despacho date NOT NULL,hora time NULL,transportista varchar(100) NULL,observaciones varchar(200) NULL,id_pedido int NOT NULL REFERENCES dbo.Pedido(id_pedido),id_estado_despacho int NOT NULL REFERENCES dbo.Estado_Despacho(id_estado_despacho));
+GO
+IF NOT EXISTS(SELECT 1 FROM Categoria) INSERT Categoria(nombre,descripcion) VALUES ('Herramientas','Artículos para construcción'),('Hogar','Artículos para el hogar'),('Jardinería','Productos para jardín'),('Iluminación','Lámparas e iluminación'),('Cocina','Utensilios de cocina');
+IF NOT EXISTS(SELECT 1 FROM Producto) INSERT Producto(nombre,descripcion,precio,id_categoria) VALUES ('Martillo de acero','Mango ergonómico y cabeza reforzada',75,1),('Sartén antiadherente','Sartén para cocinar de uso diario',150,2),('Manguera para jardín','Manguera flexible de uso exterior',125,3),('Taladro eléctrico','Taladro compacto para tareas domésticas',499,1),('Lámpara de escritorio','Luz de lectura moderna',189,4),('Juego de vasos','Set de 6 vasos transparentes',89,5),('Maceta decorativa','Maceta para plantas de interior',65,3),('Organizador multiusos','Organizador de espacios',119,2);
+IF NOT EXISTS(SELECT 1 FROM Tipo_Venta) INSERT Tipo_Venta(nombre,descripcion) VALUES ('Contado','Pago inmediato'),('Crédito','Venta a crédito de demostración');
+IF NOT EXISTS(SELECT 1 FROM Tipo_Comprobante) INSERT Tipo_Comprobante(nombre,descripcion) VALUES ('Factura','Comprobante de compra de demostración'),('Recibo','Recibo de compra');
+IF NOT EXISTS(SELECT 1 FROM Metodo_Pago) INSERT Metodo_Pago(nombre,descripcion) VALUES ('Efectivo','Pago en efectivo registrado'),('Tarjeta','Pago de tarjeta simulado'),('Transferencia','Transferencia simulada');
+IF NOT EXISTS(SELECT 1 FROM Estado_Pedido) INSERT Estado_Pedido(nombre,descripcion) VALUES ('Pendiente','Recibido'),('En proceso','En preparación'),('Completado','Finalizado');
+IF NOT EXISTS(SELECT 1 FROM Estado_Despacho) INSERT Estado_Despacho(nombre,descripcion) VALUES ('Pendiente','Por despachar'),('En camino','En transporte'),('Entregado','Entregado al cliente');
+GO

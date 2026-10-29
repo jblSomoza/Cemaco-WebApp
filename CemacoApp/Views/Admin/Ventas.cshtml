@@ -1,0 +1,6 @@
+﻿@model List<VentaReporte>
+@{ ViewData["Title"]="Reporte de ventas"; }
+<div class="page-head"><span class="eyebrow">REPORTES</span><h1>Ventas registradas</h1></div>@if(ViewBag.Error is string error){<div class="notice error">@error</div>}<div class="table-wrap"><table><thead><tr><th>Venta</th><th>Fecha</th><th>Cliente</th><th>Tipo</th><th>Producto</th><th>Categoría</th><th>Cantidad</th><th>Subtotal</th><th>Pedido</th><th>Estado</th><th>Despacho</th></tr></thead><tbody>@foreach(var r in Model){<tr><td>#@r.Venta</td><td>@r.Fecha.ToString("dd/MM/yyyy")</td><td>@r.Cliente</td><td>@r.Tipo</td><td>@r.Producto</td><td>@r.Categoria</td><td>@r.Cantidad</td><td>@(r.Subtotal.ToString("C", CultureInfo.GetCultureInfo("es-GT")))</td><td>@r.Pedido</td><td>@r.Estado</td><td>@r.Despacho</td></tr>}</tbody></table></div>@if(Model.Count==0 && ViewBag.Error is null){<p>No hay ventas registradas.</p>}
+
+
+

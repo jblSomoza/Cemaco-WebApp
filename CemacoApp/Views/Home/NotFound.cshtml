@@ -1,0 +1,10 @@
+﻿@{ ViewData["Title"] = "Página no encontrada"; }
+<section class="not-found" aria-labelledby="not-found-title">
+    <span class="eyebrow">ERROR 404</span>
+    <h1 id="not-found-title">No encontramos lo que buscas</h1>
+    <p>El registro o la página solicitada no existe. Verifica el número e intenta de nuevo.</p>
+    <div class="not-found-actions">
+        <a class="button" asp-controller="Home" asp-action="Index">Volver al inicio</a>
+        <a asp-controller="Catalogo" asp-action="Index">Ver productos</a>
+    </div>
+</section>

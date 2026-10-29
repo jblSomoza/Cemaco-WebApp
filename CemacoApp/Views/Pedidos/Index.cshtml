@@ -1,0 +1,2 @@
+﻿@{ ViewData["Title"]="Mi pedido"; }
+<div class="page-head"><span class="eyebrow">TUS COMPRAS</span><h1>Consulta tu pedido</h1><p>Ingresa el número de pedido que recibiste al completar tu compra.</p></div><form asp-action="Detalle" method="get" class="track-form"><input name="id" type="number" min="1" required placeholder="Número de pedido" aria-label="Número de pedido"><button class="button" type="submit">Consultar</button></form>

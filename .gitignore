@@ -1,0 +1,33 @@
+﻿# CompilaciÃ³n .NET
+**/bin/
+**/obj/
+**/TestResults/
+
+# Visual Studio y otros editores
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.rsuser
+*.csproj.user
+
+# Archivos locales y secretos
+**/.keys/
+**/appsettings.Local.json
+**/appsettings.*.local.json
+.env
+.env.*
+!.env.example
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+*.swp
+Thumbs.db
+.DS_Store
+
+# Capturas de verificación locales
+/artifacts/
+

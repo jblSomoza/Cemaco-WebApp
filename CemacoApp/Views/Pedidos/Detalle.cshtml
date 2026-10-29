@@ -1,0 +1,3 @@
+﻿@model Pedido
+@{ ViewData["Title"]="Pedido #"+Model.Id; }
+<div class="page-head"><span class="eyebrow">SEGUIMIENTO</span><h1>Pedido #@Model.Id</h1></div><div class="card detail"><p><strong>Estado:</strong> @Model.Estado</p><p><strong>Despacho:</strong> @Model.Despacho</p><p><strong>Transportista:</strong> @Model.Transportista</p><p><strong>Dirección:</strong> @Model.Direccion</p><p><strong>Fecha:</strong> @Model.Fecha.ToString("dd/MM/yyyy")</p><p><strong>Entrega estimada:</strong> @(Model.Estimada?.ToString("dd/MM/yyyy")??"Sin definir")</p><p><strong>Venta:</strong> #@Model.VentaId</p></div><a asp-action="Index">Consultar otro pedido</a>

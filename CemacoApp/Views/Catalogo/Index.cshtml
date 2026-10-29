@@ -1,0 +1,8 @@
+﻿@model List<Producto>
+@{ ViewData["Title"]="Productos"; }
+<div class="page-head"><span class="eyebrow">NUESTRO CATÁLOGO</span><h1>Productos para cada espacio</h1><p>Selecciona los productos que deseas comprar.</p></div>
+@if(ViewBag.Error is string error){<div class="notice error">@error</div>}
+<form method="get" class="filters"><input name="buscar" value="@ViewBag.Buscar" placeholder="Buscar productos" aria-label="Buscar productos"><select name="categoria" aria-label="Categoría"><option value="">Todas las categorías</option>@foreach(string categoria in ViewBag.Categorias ?? new List<string>()){<option value="@categoria" selected="@(categoria == (string?)ViewBag.Categoria)">@categoria</option>}</select><button type="submit" class="button">Buscar</button></form>
+<div class="products">@foreach(var p in Model){<article class="product"><div class="product-art">✦</div><div class="product-body"><span class="eyebrow">@p.Categoria</span><h2>@p.Nombre</h2><p>@p.Descripcion</p><div class="product-bottom"><strong>@(p.Precio.ToString("C", CultureInfo.GetCultureInfo("es-GT")))</strong><form asp-controller="Carrito" asp-action="Agregar" method="post"><input type="hidden" name="productoId" value="@p.Id"><button type="submit" class="button">Agregar</button></form></div></div></article>}</div>
+@if(Model.Count==0 && ViewBag.Error is null){<p class="empty">No encontramos productos con ese filtro.</p>}
+

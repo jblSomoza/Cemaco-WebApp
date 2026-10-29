@@ -1,0 +1,4 @@
+﻿@model ResultadoVenta
+@{ ViewData["Title"]="Compra registrada"; }
+<div class="success-card"><div class="success-mark">✓</div><span class="eyebrow">OPERACIÓN COMPLETADA</span><h1>¡Tu pedido fue registrado!</h1><p>La venta y el pedido quedaron guardados en SQL Server.</p><dl><div><dt>Venta</dt><dd>#@Model.VentaId</dd></div><div><dt>Pedido</dt><dd>#@Model.PedidoId</dd></div><div><dt>Comprobante</dt><dd>@Model.Comprobante</dd></div><div><dt>Total</dt><dd>@(Model.Total.ToString("C", CultureInfo.GetCultureInfo("es-GT")))</dd></div></dl><a class="button" asp-controller="Pedidos" asp-action="Detalle" asp-route-id="@Model.PedidoId">Consultar mi pedido →</a></div>
+
