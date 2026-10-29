@@ -31,3 +31,8 @@ Thumbs.db
 # Capturas de verificación locales
 /artifacts/
 
+
+# Vistas intermedias de los PPTX
+/presentaciones/fuentes/
+/presentaciones/rendered/
+

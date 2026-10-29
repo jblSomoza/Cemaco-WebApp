@@ -1,0 +1,28 @@
+{
+  "exposicion": [
+    "1 · Empresa",
+    "2 · Problema",
+    "3 · Objetivos"
+  ],
+  "respaldo": [
+    "Guía de defensa",
+    "Guion de exposición · 2:55",
+    "Alcance real del prototipo",
+    "MVC aplicado al proyecto",
+    "Modelo relacional",
+    "Relaciones que deben explicar",
+    "Catálogo y carrito",
+    "Registro de venta",
+    "Formulario y validación",
+    "Seguimiento y despacho",
+    "Administración y reportes",
+    "Capturas de resultados",
+    "Errores visibles",
+    "Pruebas y evidencia",
+    "Conexión SQL paso a paso",
+    "Preguntas prácticas",
+    "Preguntas analíticas",
+    "Ronda para todos",
+    "Limitaciones y siguientes pasos"
+  ]
+}
